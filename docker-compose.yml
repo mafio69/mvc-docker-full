@@ -5,12 +5,11 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Docker/Dockerfile
     ports:
       - 80:80
     volumes:
       - ./src:/var/www/html/
-
   db:
     image: mariadb
     restart: always
