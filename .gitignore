@@ -1,1 +1,4 @@
 /mysql-data/
+/src/composer.lock
+/src/vendor/
+/mysql/

@@ -1,0 +1,41 @@
+#<IfModule mod_rewrite.c>
+#  Options -Multiviews
+#  RewriteEngine On
+#  RewriteBase /mvc/public
+#  RewriteCond %{REQUEST_FILENAME} !-d
+#  RewriteCond %{REQUEST_FILENAME} !-f
+#  RewriteRule  ^(.+)$ Start.php?url=$1 [QSA,L]
+#
+#  AddType application/x-httpd-php .php .phtml
+#
+#</IfModule>
+php_value error_log log/all_errors.log
+ErrorDocument 404 404.html
+ErrorDocument 500 404.html
+ErrorDocument 401 404.html
+ErrorDocument 402 404.html
+ErrorDocument 502 404.html
+ErrorDocument 503 404.html
+ErrorDocument 504 404.html
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule  ^(.+)$ index.php?url=$1 [QSA,L]
+</IfModule>

@@ -5,11 +5,13 @@ services:
   php:
     build:
       context: .
-      dockerfile: Docker/Dockerfile
+      dockerfile: docker/Dockerfile
+    restart: always
+    container_name: mfMVC
     ports:
-      - 80:80
+      - 8050:80
     volumes:
-      - ./src:/var/www/html/
+      - ./src:/var/www/html
   db:
     image: mariadb
     restart: always
@@ -27,7 +29,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8090:8080
 
 volumes:
   mysql-data:
