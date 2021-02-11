@@ -2,3 +2,8 @@
 /src/composer.lock
 /src/vendor/
 /mysql/
+/src/logs/xdebug.log
+/src/logs/server/error.log
+/src/logs/server/mfMVC_access.log
+/src/logs/server/mfMVC_error.log
+/src/logs/server/other_vhosts_access.log

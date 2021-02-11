@@ -8,6 +8,8 @@ class Config
 {
     public static function env()
     {
+
+
         $env = new XmlParse();
         $envArray = $env->readENV(BASE . '/ENV.xml');
         define('ENV_DEV', $envArray['developer'] == 'true');
@@ -26,11 +28,15 @@ class Config
         define('URI', isset($_SERVER['REQUEST_URI']) ?? '/test');
         define('HOST', isset($_SERVER['HTTP_HOST']) ?? 'www.test.pl');
         define('URL', HOST . URI);
-        if (!file_exists(BASE.'/Logs/' . date('y-m-d')))
-            mkdir(BASE.'/Logs/' . date('y-m-d'), 777, true);
-        define('LOG_PATH',BASE.'/Logs/' . date('y-m-d'));
-        if (!file_exists(BASE.'/Logs_DB/' . date('y-m-d')))
-            mkdir(BASE.'/Logs_DB/' . date('y-m-d'), 777, true);
-        define('LOG_DB', BASE.'/Logs_DB/' . date('y-m-d'));
+        if (!file_exists(BASE.'/logs/' . date('y-m-d')))
+            if (!mkdir($concurrentDirectory = BASE . '/logs/' . date('y-m-d'), 777, true) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+        define('LOG_PATH',BASE.'/logs/' . date('y-m-d'));
+        if (!file_exists(BASE.'/logs_DB/' . date('y-m-d')))
+            if (!mkdir($concurrentDirectory = BASE . '/logs_DB/' . date('y-m-d'), 777, true) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+        define('LOG_DB', BASE.'/logs_DB/' . date('y-m-d'));
     }
 }

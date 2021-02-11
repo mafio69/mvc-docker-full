@@ -46,12 +46,12 @@ RUN sed -i -e 's/ModPagespeed on/ModPagespeed off/g' /etc/apache2/mods-available
 # apache stuff
 RUN /usr/sbin/a2enmod rewrite && /usr/sbin/a2enmod headers && /usr/sbin/a2enmod expires && /usr/sbin/a2enmod pagespeed
 COPY ./docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./docker/apache2.conf /etc/apache2/apache2.conf
 
 RUN pecl install xdebug-3.0.0
 RUN docker-php-ext-enable xdebug \
     && sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && sed -i '1 a xdebug.remote_connect_back=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 
 RUN chmod -R 765 /var/www/html
 
@@ -59,3 +59,5 @@ RUN mkdir -p -m 0777 /var/www/html/App
 RUN mkdir -p -m 0777 /var/www/html/Public
 
 COPY ./docker/php.ini /usr/local/etc/php/
+
+EXPOSE 80

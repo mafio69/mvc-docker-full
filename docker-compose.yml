@@ -1,5 +1,5 @@
 # Use root/example user/password credentials
-version: '3.1'
+version: '2'
 
 services:
   php:
@@ -7,16 +7,22 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     restart: always
+    networks:
+      - backend
     container_name: mfMVC
+    depends_on:
+      - db
+   # network_mode: "host"
     ports:
-      - 8050:80
+      - "80:80"
     volumes:
       - ./src:/var/www/html
+
   db:
     image: mariadb
     restart: always
-    volumes:
-      - ./mysql:/var/lib/mysql
+    networks:
+      - backend
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: admin
@@ -24,12 +30,23 @@ services:
       MYSQL_DATABASE: database
     ports:
       - "8889:3306"
+    container_name: mariadb
+
 
   adminer:
     image: adminer
     restart: always
+    networks:
+      - backend
     ports:
       - 8090:8080
 
 volumes:
   mysql-data:
+networks:
+  backend:
+    ipam:
+      driver: default
+      config:
+        -   subnet: 172.40.0.0/16
+            gateway: 172.40.0.1

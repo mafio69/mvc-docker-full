@@ -24,5 +24,6 @@ class mfRoute
     public static function getAddress(RouteCollector $r)
     {
         $r->get('/', ['App\Controller\startController', 'print']);
+        $r->get('/?{name:.+}', ['App\Controller\startController', 'print']);
     }
 }
